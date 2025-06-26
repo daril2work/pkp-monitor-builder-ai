@@ -15,10 +15,25 @@ import { BarChart3, FileText, CheckCircle, Users, Settings, Shield, Award } from
 const Index = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [userRole, setUserRole] = useState<'puskesmas' | 'dinkes'>('puskesmas');
+  const [triggerNewBundleCreation, setTriggerNewBundleCreation] = useState(false);
 
   const handleRoleToggle = (checked: boolean) => {
     setUserRole(checked ? 'dinkes' : 'puskesmas');
     setActiveTab('dashboard');
+    setTriggerNewBundleCreation(false);
+  };
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    // Reset trigger jika berpindah dari bundle-builder ke tab lain
+    if (activeTab === 'bundle-builder' && value !== 'bundle-builder') {
+      setTriggerNewBundleCreation(false);
+    }
+  };
+
+  const handleNewBundleRequest = () => {
+    setTriggerNewBundleCreation(true);
+    setActiveTab('bundle-builder');
   };
 
   return (
@@ -70,7 +85,7 @@ const Index = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {userRole === 'puskesmas' ? (
           // User Interface (Puskesmas) - Now 3 tabs with separate Rekap Skor
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
             <TabsList className="grid w-full grid-cols-3 lg:w-fit lg:grid-cols-3 bg-white shadow-sm border border-gray-200">
               <TabsTrigger value="dashboard" className="flex items-center space-x-2">
                 <BarChart3 className="w-4 h-4" />
@@ -100,7 +115,7 @@ const Index = () => {
           </Tabs>
         ) : (
           // Admin Interface (Dinkes)
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 lg:w-fit lg:grid-cols-4 bg-white shadow-sm border border-gray-200">
               <TabsTrigger value="dashboard" className="flex items-center space-x-2">
                 <BarChart3 className="w-4 h-4" />
@@ -121,11 +136,14 @@ const Index = () => {
             </TabsList>
 
             <TabsContent value="dashboard" className="space-y-6">
-              <AdminDashboard />
+              <AdminDashboard onNewBundleRequest={handleNewBundleRequest} />
             </TabsContent>
 
             <TabsContent value="bundle-builder" className="space-y-6">
-              <BundleBuilder />
+              <BundleBuilder 
+                triggerNewBundleCreation={triggerNewBundleCreation}
+                setTriggerNewBundleCreation={setTriggerNewBundleCreation}
+              />
             </TabsContent>
 
             <TabsContent value="verifikasi" className="space-y-6">

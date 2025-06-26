@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +16,11 @@ import {
   Eye
 } from 'lucide-react';
 
-const AdminDashboard = () => {
+interface AdminDashboardProps {
+  onNewBundleRequest: () => void;
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNewBundleRequest }) => {
   const mockBundleData = [
     { id: 1, tahun: 2024, status: 'aktif', jumlah_klaster: 8, jumlah_indikator: 45, jumlah_puskesmas: 127, progress: 78 },
     { id: 2, tahun: 2023, status: 'selesai', jumlah_klaster: 7, jumlah_indikator: 42, jumlah_puskesmas: 125, progress: 100 },
@@ -91,7 +94,10 @@ const AdminDashboard = () => {
           <CardTitle className="text-xl font-semibold text-gray-800">
             Management Bundle PKP
           </CardTitle>
-          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+          <Button 
+            onClick={onNewBundleRequest}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          >
             <Plus className="w-4 h-4 mr-2" />
             Buat Bundle Baru
           </Button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,39 +62,49 @@ interface BundlePKP {
   klaster: Klaster[];
 }
 
-const BundleBuilder = () => {
-  const [bundle, setBundle] = useState<BundlePKP>({
-    tahun: 2025,
-    judul: 'Bundle PKP 2025',
+interface BundleBuilderProps {
+  triggerNewBundleCreation: boolean;
+  setTriggerNewBundleCreation: (value: boolean) => void;
+}
+
+const BundleBuilder: React.FC<BundleBuilderProps> = ({ 
+  triggerNewBundleCreation, 
+  setTriggerNewBundleCreation 
+}) => {
+  const getInitialBundle = (): BundlePKP => ({
+    tahun: new Date().getFullYear() + 1,
+    judul: `Bundle PKP ${new Date().getFullYear() + 1}`,
     klaster: [
       {
-        id: 1,
+        id: Date.now(),
         nama_klaster: 'Klaster 1: Promosi Kesehatan',
-        indikator: [
-          {
-            id: 1,
-            nama_indikator: 'Cakupan Penyuluhan Kesehatan',
-            definisi_operasional: 'Persentase kegiatan penyuluhan kesehatan yang dilaksanakan',
-            type: 'scoring',
-            skor: {
-              0: 'Tidak ada kegiatan penyuluhan (0%)',
-              4: 'Kegiatan penyuluhan 1-40% dari target',
-              7: 'Kegiatan penyuluhan 41-80% dari target',
-              10: 'Kegiatan penyuluhan >80% dari target'
-            }
-          }
-        ]
+        indikator: []
       }
     ]
   });
 
+  const [bundle, setBundle] = useState<BundlePKP>(getInitialBundle());
   const [editingKlaster, setEditingKlaster] = useState<number | null>(null);
   const [editingIndikator, setEditingIndikator] = useState<number | null>(null);
+
+  // Effect untuk menangani pembuatan bundle baru
+  useEffect(() => {
+    if (triggerNewBundleCreation) {
+      setBundle(getInitialBundle());
+      setEditingKlaster(null);
+      setEditingIndikator(null);
+      setTriggerNewBundleCreation(false);
+      toast({
+        title: "Bundle baru dibuat",
+        description: "Silakan mulai mengisi data bundle PKP yang baru"
+      });
+    }
+  }, [triggerNewBundleCreation, setTriggerNewBundleCreation]);
 
   const addKlaster = () => {
     const newKlaster: Klaster = {
       id: Date.now(),
-      nama_klaster: 'Klaster Baru',
+      nama_klaster: `Klaster ${bundle.klaster.length + 1}: Klaster Baru`,
       indikator: []
     };
     setBundle(prev => ({

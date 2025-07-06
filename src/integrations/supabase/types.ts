@@ -9,7 +9,361 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      assessments: {
+        Row: {
+          actual_achievement: number | null
+          bukti_dukung: string | null
+          bundle_id: string
+          calculated_percentage: number | null
+          calculated_score: number | null
+          created_at: string
+          id: string
+          indicator_id: string
+          keterangan: string | null
+          periode_triwulan: number
+          puskesmas_id: string
+          selected_score: number | null
+          tahun: number
+          updated_at: string
+          user_id: string
+          verification_comment: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          actual_achievement?: number | null
+          bukti_dukung?: string | null
+          bundle_id: string
+          calculated_percentage?: number | null
+          calculated_score?: number | null
+          created_at?: string
+          id?: string
+          indicator_id: string
+          keterangan?: string | null
+          periode_triwulan: number
+          puskesmas_id: string
+          selected_score?: number | null
+          tahun: number
+          updated_at?: string
+          user_id: string
+          verification_comment?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          actual_achievement?: number | null
+          bukti_dukung?: string | null
+          bundle_id?: string
+          calculated_percentage?: number | null
+          calculated_score?: number | null
+          created_at?: string
+          id?: string
+          indicator_id?: string
+          keterangan?: string | null
+          periode_triwulan?: number
+          puskesmas_id?: string
+          selected_score?: number | null
+          tahun?: number
+          updated_at?: string
+          user_id?: string
+          verification_comment?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessments_indicator_id_fkey"
+            columns: ["indicator_id"]
+            isOneToOne: false
+            referencedRelation: "indicators"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assessments_puskesmas_id_fkey"
+            columns: ["puskesmas_id"]
+            isOneToOne: false
+            referencedRelation: "puskesmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bundles: {
+        Row: {
+          created_at: string
+          id: string
+          judul: string
+          status: Database["public"]["Enums"]["bundle_status"]
+          tahun: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          judul: string
+          status?: Database["public"]["Enums"]["bundle_status"]
+          tahun: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          judul?: string
+          status?: Database["public"]["Enums"]["bundle_status"]
+          tahun?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      clusters: {
+        Row: {
+          bundle_id: string
+          created_at: string
+          id: string
+          nama_klaster: string
+          updated_at: string
+          urutan: number
+        }
+        Insert: {
+          bundle_id: string
+          created_at?: string
+          id?: string
+          nama_klaster: string
+          updated_at?: string
+          urutan: number
+        }
+        Update: {
+          bundle_id?: string
+          created_at?: string
+          id?: string
+          nama_klaster?: string
+          updated_at?: string
+          urutan?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clusters_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      indicators: {
+        Row: {
+          cluster_id: string
+          created_at: string
+          definisi_operasional: string | null
+          id: string
+          nama_indikator: string
+          periodicity: Database["public"]["Enums"]["periodicity"] | null
+          satuan: string | null
+          scoring_criteria: Json | null
+          target_percentage: number | null
+          total_sasaran: number | null
+          type: Database["public"]["Enums"]["indicator_type"]
+          updated_at: string
+          urutan: number
+        }
+        Insert: {
+          cluster_id: string
+          created_at?: string
+          definisi_operasional?: string | null
+          id?: string
+          nama_indikator: string
+          periodicity?: Database["public"]["Enums"]["periodicity"] | null
+          satuan?: string | null
+          scoring_criteria?: Json | null
+          target_percentage?: number | null
+          total_sasaran?: number | null
+          type: Database["public"]["Enums"]["indicator_type"]
+          updated_at?: string
+          urutan: number
+        }
+        Update: {
+          cluster_id?: string
+          created_at?: string
+          definisi_operasional?: string | null
+          id?: string
+          nama_indikator?: string
+          periodicity?: Database["public"]["Enums"]["periodicity"] | null
+          satuan?: string | null
+          scoring_criteria?: Json | null
+          target_percentage?: number | null
+          total_sasaran?: number | null
+          type?: Database["public"]["Enums"]["indicator_type"]
+          updated_at?: string
+          urutan?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "indicators_cluster_id_fkey"
+            columns: ["cluster_id"]
+            isOneToOne: false
+            referencedRelation: "clusters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      puskesmas: {
+        Row: {
+          alamat: string | null
+          created_at: string
+          id: string
+          kabupaten: string | null
+          kecamatan: string | null
+          kode_puskesmas: string
+          nama_puskesmas: string
+          status: Database["public"]["Enums"]["puskesmas_status"]
+          telepon: string | null
+          updated_at: string
+        }
+        Insert: {
+          alamat?: string | null
+          created_at?: string
+          id?: string
+          kabupaten?: string | null
+          kecamatan?: string | null
+          kode_puskesmas: string
+          nama_puskesmas: string
+          status?: Database["public"]["Enums"]["puskesmas_status"]
+          telepon?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alamat?: string | null
+          created_at?: string
+          id?: string
+          kabupaten?: string | null
+          kecamatan?: string | null
+          kode_puskesmas?: string
+          nama_puskesmas?: string
+          status?: Database["public"]["Enums"]["puskesmas_status"]
+          telepon?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quarterly_evaluations: {
+        Row: {
+          analisis_pencapaian: string | null
+          bundle_id: string
+          created_at: string
+          hambatan_kendala: string | null
+          id: string
+          periode_triwulan: number
+          puskesmas_id: string
+          rencana_tindak_lanjut: string | null
+          tahun: number
+          updated_at: string
+          user_id: string
+          verification_comment: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          analisis_pencapaian?: string | null
+          bundle_id: string
+          created_at?: string
+          hambatan_kendala?: string | null
+          id?: string
+          periode_triwulan: number
+          puskesmas_id: string
+          rencana_tindak_lanjut?: string | null
+          tahun: number
+          updated_at?: string
+          user_id: string
+          verification_comment?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          analisis_pencapaian?: string | null
+          bundle_id?: string
+          created_at?: string
+          hambatan_kendala?: string | null
+          id?: string
+          periode_triwulan?: number
+          puskesmas_id?: string
+          rencana_tindak_lanjut?: string | null
+          tahun?: number
+          updated_at?: string
+          user_id?: string
+          verification_comment?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quarterly_evaluations_bundle_id_fkey"
+            columns: ["bundle_id"]
+            isOneToOne: false
+            referencedRelation: "bundles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quarterly_evaluations_puskesmas_id_fkey"
+            columns: ["puskesmas_id"]
+            isOneToOne: false
+            referencedRelation: "puskesmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          created_at: string
+          id: string
+          jabatan: string | null
+          nama_lengkap: string
+          nip: string | null
+          puskesmas_id: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          jabatan?: string | null
+          nama_lengkap: string
+          nip?: string | null
+          puskesmas_id?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jabatan?: string | null
+          nama_lengkap?: string
+          nip?: string | null
+          puskesmas_id?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_puskesmas_id_fkey"
+            columns: ["puskesmas_id"]
+            isOneToOne: false
+            referencedRelation: "puskesmas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +372,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      bundle_status: "draft" | "aktif" | "selesai"
+      indicator_type: "scoring" | "target_achievement"
+      periodicity: "annual" | "monthly"
+      puskesmas_status: "aktif" | "nonaktif"
+      user_role: "admin_dinkes" | "petugas_puskesmas" | "verifikator"
+      verification_status: "pending" | "approved" | "revision"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +492,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      bundle_status: ["draft", "aktif", "selesai"],
+      indicator_type: ["scoring", "target_achievement"],
+      periodicity: ["annual", "monthly"],
+      puskesmas_status: ["aktif", "nonaktif"],
+      user_role: ["admin_dinkes", "petugas_puskesmas", "verifikator"],
+      verification_status: ["pending", "approved", "revision"],
+    },
   },
 } as const

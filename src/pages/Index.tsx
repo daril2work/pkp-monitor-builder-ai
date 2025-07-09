@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Dashboard from '@/components/Dashboard';
-import PenilaianForm from '@/components/PenilaianForm';
+import PenilaianFormNew from '@/components/PenilaianFormNew';
 import RekapSkor from '@/components/RekapSkor';
 import VerifikasiPanel from '@/components/VerifikasiPanel';
 import AdminDashboard from '@/components/AdminDashboard';
@@ -158,7 +158,7 @@ const Index = () => {
               </TabsContent>
 
               <TabsContent value="penilaian" className="space-y-6">
-                <PenilaianForm />
+                <PenilaianFormNew />
               </TabsContent>
 
               <TabsContent value="rekap" className="space-y-6">
